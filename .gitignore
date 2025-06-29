@@ -1,5 +1,66 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# Python virtual environments
 .env/
 .venv/
 venv/
-agents.ipynb
-LangChain_integration.md
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebooks
+*.ipynb
+*.ipynb_checkpoints
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation files (if you want to exclude them)
+LangChain_integration_docs.md
+
+# Streamlit specific
+.streamlit/secrets.toml
