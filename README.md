@@ -86,16 +86,7 @@ ScholarSearch/
 └── .env                 # Environment variables (create this)
 ```
 
-## Phase 1 Deliverables
 
-✅ `scholar_agent.py` with:
-- Gemini LLM initialization
-- Web search tool integration (Tavily)
-- Basic agent executor
-
-✅ `requirements.txt` with dependencies
-
-✅ Simple CLI test script
 
 ## API Keys Required
 
@@ -126,23 +117,6 @@ response = agent.search_scholarships('STEM scholarships')
 print(response)
 "
 ```
-
-## Next Steps
-
-Phase 2 will add:
-- Streamlit UI with search input
-- Response display area
-- Session state management
-- Loading states and error handling
-
-## Troubleshooting
-
-1. **Missing API Keys**: Make sure both `GOOGLE_API_KEY` and `TAVILY_API_KEY` are set in your `.env` file
-2. **Import Errors**: Ensure all dependencies are installed with `pip install -r requirements.txt`
-3. **Network Issues**: Check your internet connection and API key validity
-4. **Python Version**: Requires Python 3.8 or higher
-
-## Contributing
 
 This is Phase 1 of the ScholarSearch project. The agent is designed to be extensible for future phases including:
 - Enhanced search tools
