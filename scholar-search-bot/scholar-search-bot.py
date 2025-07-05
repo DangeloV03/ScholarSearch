@@ -7,7 +7,7 @@ import threading
 
 # --- Feature Toggles ---
 ENABLE_SUBMISSION_REPLIES = True
-ENABLE_COMMENT_REPLIES = True  # set to True when ready to monitor comments
+ENABLE_COMMENT_REPLIES = False  # set to True when ready to monitor comments
 
 # --- Load Environment Variables ---
 load_dotenv()

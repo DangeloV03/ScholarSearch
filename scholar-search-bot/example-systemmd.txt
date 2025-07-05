@@ -1,0 +1,42 @@
+[Unit]
+Description=ScholarSearch Reddit Bot
+After=network.target
+
+[Service]
+User=yourusername
+WorkingDirectory=/home/yourusername/path/to/bot
+ExecStart=/home/yourusername/path/to/venv/bin/python3 /home/yourusername/path/to/bot/bot.py
+EnvironmentFile=/home/yourusername/path/to/bot/.env
+Restart=always
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+##### Directions
+
+1 - Create the system file (and copy, paste, and edit the examle above)
+
+sudo nano /etc/systemd/system/scholarsearchbot.service
+
+
+2 - Create and restart the service
+
+sudo systemctl daemon-reload
+sudo systemctl enable scholarsearchbot.service
+sudo systemctl start scholarsearchbot.service
+
+
+
+3 - Check that it's running
+
+sudo systemctl status scholarsearchbot.service
+journalctl -u scholarsearchbot.service -f (LIVE LOGS)
+
+
+4 - Restart the service
+
+sudo systemctl restart scholarsearchbot.service
