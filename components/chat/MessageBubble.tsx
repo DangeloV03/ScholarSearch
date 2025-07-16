@@ -38,8 +38,8 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         <div className={`flex-shrink-0 ${isUser ? 'ml-3' : 'mr-3'}`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
             isUser 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-100 text-gray-600'
+              ? 'bg-primary text-white' 
+              : 'bg-muted text-muted-foreground'
           }`}>
             {isUser ? <User size={16} /> : <Bot size={16} />}
           </div>
@@ -47,10 +47,10 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
 
         {/* Message Content */}
         <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
-          <div className={`px-4 py-2 rounded-lg ${
+          <div className={`px-4 py-3 rounded-2xl ${
             isUser
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-900'
+              ? 'bg-primary text-white'
+              : 'bg-muted text-foreground'
           }`}>
             <div className="text-sm whitespace-pre-wrap">
               {renderContent(message.content)}
@@ -58,7 +58,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           </div>
           
           {/* Metadata */}
-          <div className={`flex items-center mt-1 text-xs text-gray-500 ${
+          <div className={`flex items-center mt-2 text-xs text-muted-foreground ${
             isUser ? 'justify-end' : 'justify-start'
           }`}>
             <span>{formatTime(message.createdAt)}</span>

@@ -6,7 +6,11 @@ import ConversationSidebar from './ConversationSidebar';
 import ChatArea from './ChatArea';
 import { supabase } from '@/lib/supabaseClient';
 
-export default function ChatInterface() {
+interface ChatInterfaceProps {
+  initialConversationId?: string;
+}
+
+export default function ChatInterface({ initialConversationId }: ChatInterfaceProps) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -199,8 +203,19 @@ export default function ChatInterface() {
     }
   }, [currentConversation?.id]);
 
+  // Handle initial conversation selection
+  useEffect(() => {
+    if (initialConversationId && conversations.length > 0) {
+      const targetConversation = conversations.find(conv => conv.id === initialConversationId);
+      if (targetConversation) {
+        setCurrentConversation(targetConversation);
+        fetchMessages(targetConversation.id);
+      }
+    }
+  }, [initialConversationId, conversations]);
+
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-background">
       {/* Sidebar */}
       <ConversationSidebar
         conversations={conversations}

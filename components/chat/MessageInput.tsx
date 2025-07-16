@@ -46,12 +46,12 @@ export default function MessageInput({
   }, [message]);
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-end space-x-2">
+    <form onSubmit={handleSubmit} className="flex items-end space-x-3 p-4 border-t border-border bg-card">
       {/* Attachment Button */}
       <button
         type="button"
         disabled={disabled}
-        className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors disabled:opacity-50"
+        className="p-2 text-muted-foreground hover:text-foreground rounded-lg transition-colors disabled:opacity-50"
         title="Attach file"
       >
         <Paperclip size={20} />
@@ -64,9 +64,9 @@ export default function MessageInput({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message here..."
+          placeholder="Ask about scholarships, grants, or educational opportunities..."
           disabled={disabled || isLoading}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full chat-input resize-none"
           rows={1}
           style={{ minHeight: '44px', maxHeight: '120px' }}
         />
@@ -77,23 +77,23 @@ export default function MessageInput({
         type="button"
         onClick={toggleAgent}
         disabled={isLoading || disabled}
-        className="px-3 py-2 text-xs font-medium text-gray-600 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-xs font-medium text-muted-foreground bg-muted border border-border rounded-lg hover:bg-secondary hover:text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         title={`Current agent: ${agent === 'gemini' ? 'Gemini' : 'Tavily'}. Click to switch.`}
       >
         {agent === 'gemini' ? 'Gemini' : 'Tavily'}
       </button>
 
-      {/* Search Button */}
+      {/* Send Button */}
       <button
         type="submit"
         disabled={!message.trim() || isLoading || disabled}
-        className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-        title="Search"
+        className="p-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        title="Send message"
       >
         {isLoading ? (
           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
         ) : (
-          <Search size={20} />
+          <Send size={20} />
         )}
       </button>
     </form>

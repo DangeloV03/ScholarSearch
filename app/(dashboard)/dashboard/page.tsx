@@ -2,7 +2,11 @@ import { createSupabaseServerClient } from '@/lib/supabaseServer';
 import { redirect } from 'next/navigation';
 import ChatInterface from '@/components/chat/ChatInterface';
 
-export default async function DashboardPage() {
+interface DashboardPageProps {
+  searchParams: { conversation?: string };
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const supabase = createSupabaseServerClient();
   
   // Check if user is authenticated
@@ -13,8 +17,8 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <ChatInterface />
+    <div className="min-h-screen bg-background">
+      <ChatInterface initialConversationId={searchParams.conversation} />
     </div>
   );
 } 

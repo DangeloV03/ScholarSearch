@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import PageTransition from '@/components/ui/PageTransition'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -61,7 +62,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <div className="min-h-screen bg-background">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </div>
       </body>
     </html>
