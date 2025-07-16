@@ -1,5 +1,5 @@
 """
-ScholarSearch Agent - Phase 1
+ScholarSearch Agent - AI-powered scholarship search agent
 A LangChain-based scholarship search agent using Gemini API and Tavily search.
 """
 
@@ -15,6 +15,32 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_tavily import TavilySearch
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
+
+# System prompt for scholarship search
+SCHOLARSHIP_SYSTEM_PROMPT = """You are ScholarSearch, an expert AI assistant specializing in finding and providing detailed information about scholarships for students. Your role is to help students find relevant scholarship opportunities with specific, actionable information.
+
+IMPORTANT GUIDELINES:
+1. ALWAYS provide specific scholarship names, amounts, and deadlines when available
+2. Include real scholarship programs with actual dollar amounts
+3. Provide application requirements and eligibility criteria
+4. Include direct links to scholarship applications when possible
+5. Organize information clearly with categories and bullet points
+6. Be encouraging and supportive while providing practical advice
+
+WHEN SEARCHING FOR SCHOLARSHIPS:
+- Use the search tool to find current, up-to-date scholarship information
+- Focus on scholarships that match the student's specific criteria (major, GPA, location, etc.)
+- Include both merit-based and need-based scholarships
+- Mention application deadlines and requirements
+- Provide tips for successful applications
+
+RESPONSE FORMAT:
+- Start with a brief summary of what you found
+- List specific scholarships with: Name, Amount, Deadline, Requirements
+- Include application tips and strategies
+- End with encouragement and next steps
+
+Remember: Students are counting on you to provide accurate, specific information that can help them fund their education. Always be thorough and provide actionable details."""
 
 class ScholarSearchAgent:
     """Main agent class for scholarship search functionality."""
@@ -55,7 +81,8 @@ class ScholarSearchAgent:
             max_results=5,
             search_depth="advanced",
             include_domains=["scholarships.com", "fastweb.com", "collegeboard.org", 
-                           "bigfuture.collegeboard.org", "usnews.com", "princetonreview.com"]
+                           "bigfuture.collegeboard.org", "usnews.com", "princetonreview.com",
+                           "scholarshipamerica.org", "collegescholarships.org", "scholarships360.org"]
         )
     
     def _create_agent(self):
@@ -80,7 +107,9 @@ class ScholarSearchAgent:
         Returns:
             str: The agent's response with scholarship information
         """
-        input_message = {"role": "user", "content": query}
+        # Create the initial message with system prompt
+        system_message = {"role": "system", "content": SCHOLARSHIP_SYSTEM_PROMPT}
+        user_message = {"role": "user", "content": query}
         
         # Always provide a thread_id if memory is enabled
         if self.memory:
@@ -88,11 +117,11 @@ class ScholarSearchAgent:
                 thread_id = "default"
             config = {"configurable": {"thread_id": thread_id}}
             response = self.agent_executor.invoke(
-                {"messages": [input_message]}, 
+                {"messages": [system_message, user_message]}, 
                 config
             )
         else:
-            response = self.agent_executor.invoke({"messages": [input_message]})
+            response = self.agent_executor.invoke({"messages": [system_message, user_message]})
         
         # Find the last AI/assistant message with non-empty content
         last_content = None
@@ -116,7 +145,9 @@ class ScholarSearchAgent:
         Yields:
             dict: Streaming response steps
         """
-        input_message = {"role": "user", "content": query}
+        # Create the initial message with system prompt
+        system_message = {"role": "system", "content": SCHOLARSHIP_SYSTEM_PROMPT}
+        user_message = {"role": "user", "content": query}
         
         # Always provide a thread_id if memory is enabled
         if self.memory:
@@ -124,14 +155,14 @@ class ScholarSearchAgent:
                 thread_id = "default"
             config = {"configurable": {"thread_id": thread_id}}
             for step in self.agent_executor.stream(
-                {"messages": [input_message]}, 
+                {"messages": [system_message, user_message]}, 
                 config, 
                 stream_mode="values"
             ):
                 yield step
         else:
             for step in self.agent_executor.stream(
-                {"messages": [input_message]}, 
+                {"messages": [system_message, user_message]}, 
                 stream_mode="values"
             ):
                 yield step
@@ -150,8 +181,8 @@ def initialize_agent(use_memory: bool = True) -> ScholarSearchAgent:
 
 def main():
     """Simple CLI interface for testing the agent."""
-    print("ScholarSearch Agent - Phase 1")
-    print("=" * 40)
+    print("ScholarSearch Agent - AI-Powered Scholarship Search")
+    print("=" * 50)
     
     try:
         agent = initialize_agent()

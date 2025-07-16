@@ -1,151 +1,201 @@
-# ScholarSearch Agent - Phase 1
+# ScholarSearch - AI-Powered Scholarship Search Platform
 
-A LangChain-based scholarship search agent using Gemini API and Tavily search.
+A modern, full-stack web application that helps students find scholarships using AI-powered search and conversation interfaces.
 
-## Quick Start
+## 🚀 Features
 
-### Option 1: Automated Setup
-```bash
-python setup.py
+- **AI-Powered Search**: Uses Gemini and Tavily agents to find relevant scholarships
+- **Conversation Interface**: ChatGPT-style chat interface with conversation persistence
+- **User Authentication**: Secure authentication with Supabase Auth
+- **Real-time Chat**: Live conversation with contextual memory
+- **Smart Titles**: Auto-generates contextual conversation titles
+- **Modern UI**: Clean, responsive design with Tailwind CSS
+
+## 🏗️ Architecture
+
+```
+Frontend (Next.js 14) ←→ API Routes ←→ Supabase Database
+                ↓
+            FastAPI Backend ←→ Python ScholarSearch Agent
 ```
 
-### Option 2: Manual Setup
-
-#### 1. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-#### 2. Set Environment Variables
-
-Create a `.env` file in the project root with the following variables:
-
-```env
-# Google Gemini API Key
-# Get your API key from: https://makersuite.google.com/app/apikey
-GOOGLE_API_KEY=your_google_gemini_api_key_here
-
-# Tavily Search API Key  
-# Get your API key from: https://tavily.com/
-TAVILY_API_KEY=your_tavily_api_key_here
-```
-
-#### 3. Run Tests
-
-```bash
-python test_agent.py
-```
-
-#### 4. Use the Agent
-
-##### Interactive CLI
-```bash
-python scholar_agent.py
-```
-
-##### Programmatic Usage
-```python
-from scholar_agent import initialize_agent
-
-# Initialize agent
-agent = initialize_agent()
-
-# Search for scholarships
-response = agent.search_scholarships("Find STEM scholarships for Ohio high school students")
-print(response)
-
-# Stream search results
-for step in agent.stream_search("Engineering scholarships for women"):
-    print(step)
-```
-
-##### Run Examples
-```bash
-python example_usage.py
-```
-
-## Features
-
-- **Gemini LLM Integration**: Uses Google's Gemini 1.5 Flash model
-- **Tavily Search**: Advanced web search with scholarship-focused domains
-- **Conversation Memory**: Optional memory for multi-turn conversations
-- **Streaming Support**: Real-time streaming of search results
-- **Error Handling**: Comprehensive error handling and validation
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 ScholarSearch/
-├── scholar_agent.py      # Main agent implementation
-├── test_agent.py         # CLI test script
-├── example_usage.py      # Example usage demonstrations
-├── setup.py             # Automated setup script
-├── requirements.txt      # Python dependencies
-├── README.md            # This file
-└── .env                 # Environment variables (create this)
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # Authentication pages
+│   ├── (dashboard)/       # Main dashboard
+│   ├── api/               # API routes
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   ├── chat/             # Chat interface components
+│   └── ui/               # Reusable UI components
+├── lib/                  # Utility libraries
+│   ├── auth.ts           # Authentication utilities
+│   ├── supabaseClient.ts # Supabase client
+│   ├── supabaseServer.ts # Supabase server client
+│   └── utils.ts          # General utilities
+├── types/                # TypeScript type definitions
+├── agent_api/            # Python FastAPI backend
+│   ├── main.py           # FastAPI application
+│   └── requirements.txt  # Python dependencies
+├── database_schema.sql   # Database schema
+└── README.md            # This file
 ```
 
-## Phase 1 Deliverables
+## 🛠️ Tech Stack
 
-✅ `scholar_agent.py` with:
-- Gemini LLM initialization
-- Web search tool integration (Tavily)
-- Basic agent executor
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Hook Form** - Form handling
+- **Zod** - Schema validation
 
-✅ `requirements.txt` with dependencies
+### Backend
+- **FastAPI** - Python web framework
+- **LangChain** - AI/LLM framework
+- **Google Gemini** - AI model
+- **Tavily** - Search API
 
-✅ Simple CLI test script
+### Database & Auth
+- **Supabase** - PostgreSQL database with auth
+- **Row Level Security** - Data security
 
-## API Keys Required
+## 🚀 Quick Start
 
-1. **Google Gemini API Key**: 
-   - Visit: https://makersuite.google.com/app/apikey
-   - Create a new API key
-   - Add to `.env` as `GOOGLE_API_KEY`
+### Prerequisites
+- Node.js 18+ 
+- Python 3.8+
+- Supabase account
+- Google Gemini API key
+- Tavily API key
 
-2. **Tavily Search API Key**:
-   - Visit: https://tavily.com/
-   - Sign up for a free account
-   - Get your API key
-   - Add to `.env` as `TAVILY_API_KEY`
-
-## Testing
-
-The project includes comprehensive tests:
+### 1. Clone and Install
 
 ```bash
-# Run all tests
-python test_agent.py
-
-# Test specific functionality
-python -c "
-from scholar_agent import initialize_agent
-agent = initialize_agent()
-response = agent.search_scholarships('STEM scholarships')
-print(response)
-"
+git clone <repository-url>
+cd ScholarSearch
+npm install
 ```
 
-## Next Steps
+### 2. Environment Setup
 
-Phase 2 will add:
-- Streamlit UI with search input
-- Response display area
-- Session state management
-- Loading states and error handling
+Create `.env.local` in the root directory:
 
-## Troubleshooting
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-1. **Missing API Keys**: Make sure both `GOOGLE_API_KEY` and `TAVILY_API_KEY` are set in your `.env` file
-2. **Import Errors**: Ensure all dependencies are installed with `pip install -r requirements.txt`
-3. **Network Issues**: Check your internet connection and API key validity
-4. **Python Version**: Requires Python 3.8 or higher
+# AI APIs
+GOOGLE_API_KEY=your_gemini_api_key
+TAVILY_API_KEY=your_tavily_api_key
 
-## Contributing
+# Backend
+AGENT_API_URL=http://localhost:8000
+```
 
-This is Phase 1 of the ScholarSearch project. The agent is designed to be extensible for future phases including:
-- Enhanced search tools
-- Web UI development
-- API endpoints
-- Production deployment # ScholarSearch
+### 3. Database Setup
+
+Run the database schema in your Supabase SQL editor:
+
+```sql
+-- Copy and paste the contents of database_schema.sql
+```
+
+### 4. Start the Backend
+
+```bash
+cd agent_api
+pip install -r requirements.txt
+python main.py
+```
+
+### 5. Start the Frontend
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` to see the application.
+
+## 🔧 Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+### API Endpoints
+
+#### Frontend API Routes
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `GET /api/conversations` - Get user conversations
+- `POST /api/conversations` - Create new conversation
+- `DELETE /api/conversations/[id]` - Delete conversation
+- `GET /api/conversations/[id]/messages` - Get conversation messages
+- `POST /api/conversations/[id]/messages` - Add message
+- `POST /api/search` - Search for scholarships
+
+#### Backend API Routes
+- `POST /search` - AI scholarship search
+- `GET /health` - Health check
+
+## 🎨 UI Components
+
+### Chat Interface
+- **ChatInterface** - Main chat container
+- **ConversationSidebar** - Conversation list
+- **ChatArea** - Message display area
+- **MessageBubble** - Individual message component
+- **MessageInput** - Message input with agent toggle
+
+### Authentication
+- **LoginForm** - User login
+- **RegisterForm** - User registration
+- **AuthGuard** - Route protection
+
+## 🔒 Security
+
+- **Row Level Security** - Database-level security
+- **Authentication** - Supabase Auth integration
+- **API Protection** - Server-side authentication checks
+- **Environment Variables** - Secure configuration
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+1. Connect repository to Vercel
+2. Set environment variables
+3. Deploy automatically
+
+### Backend (Railway/Render)
+1. Deploy `agent_api/` directory
+2. Set environment variables
+3. Update `AGENT_API_URL` in frontend
+
+### Database
+- Supabase handles database hosting
+- Automatic backups and scaling
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support, please open an issue in the GitHub repository.
